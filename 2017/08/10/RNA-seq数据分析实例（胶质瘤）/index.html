@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="一、下载比对参考基因组文件，为HISAT2配置index配置index需要基因组注释文件（通常为gtf格式）以及基因组序列文件（fasta格式）。多个数据库提供此注释文件，此处采用ensemble提供的文件。 12345678910# 从ensemble中下载最新版本的人类基因组注释文件（gtf格式）wget ftp://ftp.ensembl.org/pub/release-89/gtf/hom">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RNA-seq数据分析实例（胶质瘤）">
+<meta property="og:url" content="http://yoursite.com/2017/08/10/RNA-seq数据分析实例（胶质瘤）/index.html">
+<meta property="og:site_name" content="Wendy’s note">
+<meta property="og:description" content="一、下载比对参考基因组文件，为HISAT2配置index配置index需要基因组注释文件（通常为gtf格式）以及基因组序列文件（fasta格式）。多个数据库提供此注释文件，此处采用ensemble提供的文件。 12345678910# 从ensemble中下载最新版本的人类基因组注释文件（gtf格式）wget ftp://ftp.ensembl.org/pub/release-89/gtf/hom">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2017-09-07T11:24:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RNA-seq数据分析实例（胶质瘤）">
+<meta name="twitter:description" content="一、下载比对参考基因组文件，为HISAT2配置index配置index需要基因组注释文件（通常为gtf格式）以及基因组序列文件（fasta格式）。多个数据库提供此注释文件，此处采用ensemble提供的文件。 12345678910# 从ensemble中下载最新版本的人类基因组注释文件（gtf格式）wget ftp://ftp.ensembl.org/pub/release-89/gtf/hom">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/10/RNA-seq数据分析实例（胶质瘤）/">
+
+
+
+
+
+  <title>RNA-seq数据分析实例（胶质瘤） | Wendy’s note</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wendy’s note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/10/RNA-seq数据分析实例（胶质瘤）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wendy">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wendy’s note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RNA-seq数据分析实例（胶质瘤）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-10T16:18:00+08:00">
+                2017-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bioinformatics/" itemprop="url" rel="index">
+                    <span itemprop="name">Bioinformatics</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/10/RNA-seq数据分析实例（胶质瘤）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/10/RNA-seq数据分析实例（胶质瘤）/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/08/10/RNA-seq数据分析实例（胶质瘤）/" class="leancloud_visitors" data-flag-title="RNA-seq数据分析实例（胶质瘤）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、下载比对参考基因组文件，为HISAT2配置index"><a href="#一、下载比对参考基因组文件，为HISAT2配置index" class="headerlink" title="一、下载比对参考基因组文件，为HISAT2配置index"></a><strong>一、下载比对参考基因组文件，为HISAT2配置index</strong></h3><p>配置index需要基因组注释文件（通常为gtf格式）以及基因组序列文件（fasta格式）。多个数据库提供此注释文件，此处采用ensemble提供的文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从ensemble中下载最新版本的人类基因组注释文件（gtf格式）</span></span><br><span class="line">wget ftp://ftp.ensembl.org/pub/release-89/gtf/homo_sapiens/Homo_sapiens.GRCh38.89.gtf.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载人类基因组序列</span></span><br><span class="line">wget ftp://ftp.ensembl.org/pub/current_fasta/homo_sapiens/dna_index/Homo_sapiens.GRCh38.dna.toplevel.fa.gz</span><br><span class="line"></span><br><span class="line"><span class="comment">#配置HISAT2的index</span></span><br><span class="line">hisat2-build -p 8 Homo_sapiens.GRCh38.dna.toplevel.fa GRCh38_ensembl_dna 1&gt;build_index.log&amp;</span><br><span class="line"></span><br><span class="line"><span class="comment">#配置index用时约2小时，结果文件为下图所示</span></span><br></pre></td></tr></table></figure>
+
+<p>![hisat_index.png-24.4kB][1]</p>
+<h3 id="二、下载sra数据"><a href="#二、下载sra数据" class="headerlink" title="二、下载sra数据"></a><strong>二、下载sra数据</strong></h3><p>进入GEO页面输入id号，进入sra study的ftp下载页面，复制sra文件的链接，在linux下执行以下命令进行下载。</p>
+<p>![image_1bnhvvb621t1m65f1e3137618cdm.png-65.5kB][2]</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup wget -c [文件链接] &gt; download.log&amp;</span><br></pre></td></tr></table></figure>
+
+<h3 id="三、将sra文件转换成fastq-gz格式"><a href="#三、将sra文件转换成fastq-gz格式" class="headerlink" title="三、将sra文件转换成fastq.gz格式"></a><strong>三、将sra文件转换成fastq.gz格式</strong></h3><p>每秒可生产1M文件，工具不支持多线程。</p>
+<a id="more"></a>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#对文件夹下的所有sra文件批量处理</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> *sra</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$i</span></span><br><span class="line"><span class="comment"># 对于双端测序数据，需要加--split-3参数，每样本处理约10min</span></span><br><span class="line">fastq-dump --split-3 <span class="variable">$i</span> --gzip </span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>每个sra文件会产生两个<code>fastq.gz</code>文件，名称分别为<code>*_1.fastq.gz</code>和<code>*_2.fastq.gz</code></p>
+<h3 id="四、对fastq数据进行质控"><a href="#四、对fastq数据进行质控" class="headerlink" title="四、对fastq数据进行质控"></a><strong>四、对fastq数据进行质控</strong></h3><p>使用fastqc(项目主页<a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/" target="_blank" rel="noopener">在此</a>)进行质量控制，代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> id <span class="keyword">in</span> *fastq</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$id</span></span><br><span class="line"><span class="comment"># 此处使用8线程，平均每文件处理约10min</span></span><br><span class="line">/home/RNAseq_tool/FastQC/fastqc -t 8 <span class="variable">$id</span> -o /data/GSE86202/0.fastqc/</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>得到一个html格式报告以及包含html及表格形式报告的压缩包。其中html文件可以看出数据质量。以<code>SRR4095543_1.fastq</code>为例，下图是其原始序列质量，可看出测序质量较高。</p>
+<p>![image_1bn2ejpoj1ajt1eum1bq8uob47j9.png-62.2kB][3]</p>
+<p>但是其在5’端存在adapter，从下图可以看出。<br>![image_1bn2en6hohnb289qr01b1a14slt.png-92.9kB][4]</p>
+<p>因此需要切除5’端接头，此处选择切除10bp。</p>
+<h3 id="五、接头处理并再次质控"><a href="#五、接头处理并再次质控" class="headerlink" title="五、接头处理并再次质控"></a><strong>五、接头处理并再次质控</strong></h3><p>使用cutadapt（<a href="https://pypi.python.org/pypi/cutadapt/1.2.1" target="_blank" rel="noopener">项目主页</a>）进行接头处理，代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> id <span class="keyword">in</span> *fastq</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$id</span></span><br><span class="line"><span class="comment"># 切除序列5'前10个碱基，每个文件处理约5min</span></span><br><span class="line">cutadapt -u 10 -o /data/GSE86202/cut_<span class="variable">$id</span> <span class="variable">$id</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：在实际流程中，原始数据可能存在各种各样的问题，需要根据fastqc质控结果按需处理。本例中的处理方式仅对本数据有效。</strong></p>
+<p>再次质控结果：<br>![image_1bn2f83491g52nste3lmkksov1a.png-83.5kB][5]</p>
+<p>可以看到每个碱基的碱基组成趋于正常。</p>
+<h3 id="六、序列比对"><a href="#六、序列比对" class="headerlink" title="六、序列比对"></a><strong>六、序列比对</strong></h3><p>本例使用<strong>HISAT2</strong>进行序列比对，其速度更快且精度更高，是Tophat的优秀替代工具。比对代码如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">DATA_PATH=/data/GSE86202/1.cutadapt</span><br><span class="line">REF_PATH=/data/reference_data</span><br><span class="line">OUT_PATH=/data/GSE86202/4.hisat2</span><br><span class="line">FILE=/data/GSE86202/filelist.txt</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$DATA_PATH</span></span><br><span class="line">cat <span class="variable">$FILE</span> | <span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">hisat2 -x <span class="variable">$REF_PATH</span>/hisat_GRCh38 --no-mixed -1 <span class="variable">$DATA_PATH</span>/cut_<span class="variable">$&#123;line&#125;</span>_1.fastq -2 </span><br><span class="line"><span class="comment">#将HISAT2处理的结果输出到samtools转化为bam格式</span></span><br><span class="line"><span class="comment">#此处使用6核，约使用6.4G内存，平均每文件处理需30min</span></span><br><span class="line"><span class="variable">$DATA_PATH</span>/cut_<span class="variable">$&#123;line&#125;</span>_2.fastq -p 6 |samtools view -bS 1&gt;<span class="variable">$OUT_PATH</span>/<span class="variable">$&#123;line&#125;</span>.bam</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="七、对bam文件排序"><a href="#七、对bam文件排序" class="headerlink" title="七、对bam文件排序"></a><strong>七、对bam文件排序</strong></h3><p>使用samtools（<a href="http://samtools.sourceforge.net/" target="_blank" rel="noopener">项目主页</a>）对bam文件进行排序并添加index</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FILE_PATH=/data/GSE86202/4.hisat2</span><br><span class="line">OUT_PATH=/data/GSE86202/5.samtools</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$FILE_PATH</span></span><br><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> *.bam</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="comment"># 对bam文件进行排序（-n参数必须，表示按照read name进行排序）</span></span><br><span class="line">    samtools sort -n <span class="variable">$FILE_PATH</span>/<span class="variable">$&#123;file&#125;</span> -o <span class="variable">$OUT_PATH</span>/sorted_<span class="variable">$&#123;file&#125;</span> -@ 6</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对已经排序的bam文件进行简单质量控制</span></span><br><span class="line">    samtools flagstat <span class="variable">$OUT_PATH</span>/sorted_<span class="variable">$&#123;file&#125;</span> -@ 6 &gt; <span class="variable">$OUT_PATH</span>/<span class="variable">$&#123;file&#125;</span>.<span class="built_in">stat</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 质控后得到结果如下图所示</span></span><br></pre></td></tr></table></figure>
+
+<p>![image_1bni0nvdg1ru6c8g1dmmpv0mnr13.png-50kB][6]</p>
+<p>可看到比对结果良好。</p>
+<h3 id="八、使用htseq得到count值"><a href="#八、使用htseq得到count值" class="headerlink" title="八、使用htseq得到count值"></a><strong>八、使用htseq得到count值</strong></h3><p>使用RSeQC进行对bam文件的简单质控和各项参数的检查</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FILE_PATH=/data/GSE86202/5.samtools/gencode_genome</span><br><span class="line">REF_PATH=/data/reference_data/gtf</span><br><span class="line">OUT_PATH=/data/GSE86202/10.htseq/gencode_genome</span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$FILE_PATH</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> `seq 42..47`</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    nohup htseq-count -t exon -s reverse \</span><br><span class="line">    -r name -f bam <span class="variable">$FILE_PATH</span>/name_new_SRR40955<span class="variable">$&#123;i&#125;</span>.bam \</span><br><span class="line">    <span class="variable">$REF_PATH</span>/gencode.v26.annotation.gtf \</span><br><span class="line">    &gt; <span class="variable">$OUT_PATH</span>/name_new_SRR40955<span class="variable">$&#123;i&#125;</span>.bam.count \</span><br><span class="line">    &gt; SRR40955<span class="variable">$&#123;i&#125;</span>_count.log 2&gt;&amp;1 &amp;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>得到count值文件数与样本数据数量相等，为两列值（如下图所示），其中包括了测序数据覆盖gene的ensemble号及count值。</p>
+<p>![image_1bni91970eac128789jmstl4o9.png-56.4kB][7]</p>
+<p>写perl脚本<code>combine_count.pl</code>将所有count值进行合并，<br>合并文件如下图所示：</p>
+<p>![捕获.PNG-38.1kB][8]</p>
+<h3 id="九、使用R及count矩阵进行差异分析"><a href="#九、使用R及count矩阵进行差异分析" class="headerlink" title="九、使用R及count矩阵进行差异分析"></a><strong>九、使用R及count矩阵进行差异分析</strong></h3><p>count矩阵数据可以直接使用R中<code>DEseq2</code>包进行差异分析、GO分析以及pathway分析。<br>  [1]: <a href="http://static.zybuluo.com/oxygenjing/3s9i30ms3eb24jr9w9hcsir9/hisat_index.png" target="_blank" rel="noopener">http://static.zybuluo.com/oxygenjing/3s9i30ms3eb24jr9w9hcsir9/hisat_index.png</a><br>  [2]: <a href="http://static.zybuluo.com/oxygenjing/spy22n0j6uk0efhu6wm4a9le/image_1bnhvvb621t1m65f1e3137618cdm.png" target="_blank" rel="noopener">http://static.zybuluo.com/oxygenjing/spy22n0j6uk0efhu6wm4a9le/image_1bnhvvb621t1m65f1e3137618cdm.png</a><br>  [3]: <a href="http://static.zybuluo.com/oxygenjing/mj1p35lzix8vy0c2ttw537o1/image_1bn2ejpoj1ajt1eum1bq8uob47j9.png" target="_blank" rel="noopener">http://static.zybuluo.com/oxygenjing/mj1p35lzix8vy0c2ttw537o1/image_1bn2ejpoj1ajt1eum1bq8uob47j9.png</a><br>  [4]: <a href="http://static.zybuluo.com/oxygenjing/obb1u529xn6b1d3kex9ewo6f/image_1bn2en6hohnb289qr01b1a14slt.png" target="_blank" rel="noopener">http://static.zybuluo.com/oxygenjing/obb1u529xn6b1d3kex9ewo6f/image_1bn2en6hohnb289qr01b1a14slt.png</a><br>  [5]: <a href="http://static.zybuluo.com/oxygenjing/9vvu3n4mrwmcecdbii6lei5k/image_1bn2f83491g52nste3lmkksov1a.png" target="_blank" rel="noopener">http://static.zybuluo.com/oxygenjing/9vvu3n4mrwmcecdbii6lei5k/image_1bn2f83491g52nste3lmkksov1a.png</a><br>  [6]: <a href="http://static.zybuluo.com/oxygenjing/b5fyi2qkp5av19m7a9jhkogm/image_1bni0nvdg1ru6c8g1dmmpv0mnr13.png" target="_blank" rel="noopener">http://static.zybuluo.com/oxygenjing/b5fyi2qkp5av19m7a9jhkogm/image_1bni0nvdg1ru6c8g1dmmpv0mnr13.png</a><br>  [7]: <a href="http://static.zybuluo.com/oxygenjing/cneczjpj4ruad3puui5231zp/image_1bni91970eac128789jmstl4o9.png" target="_blank" rel="noopener">http://static.zybuluo.com/oxygenjing/cneczjpj4ruad3puui5231zp/image_1bni91970eac128789jmstl4o9.png</a><br>  [8]: <a href="http://static.zybuluo.com/oxygenjing/drg6y261b4pychfrhmqo9qlu/%E6%8D%95%E8%8E%B7.PNG" target="_blank" rel="noopener">http://static.zybuluo.com/oxygenjing/drg6y261b4pychfrhmqo9qlu/%E6%8D%95%E8%8E%B7.PNG</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/05/RNA-seq分析所用生信工具安装详细记录/" rel="next" title="RNA-seq分析所用生信工具安装详细记录">
+                <i class="fa fa-chevron-left"></i> RNA-seq分析所用生信工具安装详细记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/12/htseq-count使用说明/" rel="prev" title="htseq-count使用说明">
+                htseq-count使用说明 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Wendy">
+          <p class="site-author-name" itemprop="name">Wendy</p>
+           
+              <p class="site-description motion-element" itemprop="description">Cease to struggle and you cease to live</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/oxygenJing" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:oxygenjing830@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、下载比对参考基因组文件，为HISAT2配置index"><span class="nav-number">1.</span> <span class="nav-text">一、下载比对参考基因组文件，为HISAT2配置index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、下载sra数据"><span class="nav-number">2.</span> <span class="nav-text">二、下载sra数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、将sra文件转换成fastq-gz格式"><span class="nav-number">3.</span> <span class="nav-text">三、将sra文件转换成fastq.gz格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、对fastq数据进行质控"><span class="nav-number">4.</span> <span class="nav-text">四、对fastq数据进行质控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、接头处理并再次质控"><span class="nav-number">5.</span> <span class="nav-text">五、接头处理并再次质控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、序列比对"><span class="nav-number">6.</span> <span class="nav-text">六、序列比对</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、对bam文件排序"><span class="nav-number">7.</span> <span class="nav-text">七、对bam文件排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八、使用htseq得到count值"><span class="nav-number">8.</span> <span class="nav-text">八、使用htseq得到count值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#九、使用R及count矩阵进行差异分析"><span class="nav-number">9.</span> <span class="nav-text">九、使用R及count矩阵进行差异分析</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wendy</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://oxygenjing.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/08/10/RNA-seq数据分析实例（胶质瘤）/';
+          this.page.identifier = '2017/08/10/RNA-seq数据分析实例（胶质瘤）/';
+          this.page.title = 'RNA-seq数据分析实例（胶质瘤）';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://oxygenjing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("G1Yts5aDii5lQbUOIsaVd0fm-gzGzoHsz", "Pgoiqy9UATK8Ss9JXooux9PO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

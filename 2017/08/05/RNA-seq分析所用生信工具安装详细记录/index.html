@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="一.测试服务器设定1.使登录后自动进入/home目录下 123vim ~/.bashrc#在文件中加入以下行后保存退出cd /home  2.新建RNAseq_tool文件夹，存放各工具 1mkdir RNAseq_tool">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RNA-seq分析所用生信工具安装详细记录">
+<meta property="og:url" content="http://yoursite.com/2017/08/05/RNA-seq分析所用生信工具安装详细记录/index.html">
+<meta property="og:site_name" content="Wendy’s note">
+<meta property="og:description" content="一.测试服务器设定1.使登录后自动进入/home目录下 123vim ~/.bashrc#在文件中加入以下行后保存退出cd /home  2.新建RNAseq_tool文件夹，存放各工具 1mkdir RNAseq_tool">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://static.zybuluo.com/oxygenjing/wv86pztzhvwzzdcibkz8h608/image_1bmomd1lskq8mkhg218d26ac13.png">
+<meta property="og:image" content="http://static.zybuluo.com/oxygenjing/4z367ah9fd580cr111xrf9tr/image_1bmolqd3na58rmg1jnsf9hc3em.png">
+<meta property="og:image" content="http://static.zybuluo.com/oxygenjing/xvvik9xyg5h5is7jx60k2zaq/image_1bmon27cdomgpmhrnt1unu1cgp1g.png">
+<meta property="og:image" content="http://static.zybuluo.com/oxygenjing/ex543ebun3ocqnh0v0s9ecj2/image_1bmonjuh7f836du53d16vbhko1t.png">
+<meta property="og:image" content="http://static.zybuluo.com/oxygenjing/zhnkyov7ls5r7j2wc03bnq4s/image_1bmonpvcekhteev1rjh1c76rmq2a.png">
+<meta property="og:image" content="http://static.zybuluo.com/oxygenjing/xka6x0oo7dttc9xsl244qu2x/hisat4.png">
+<meta property="og:image" content="http://static.zybuluo.com/oxygenjing/k2idkpjgssxzsi22ejki7407/samtools.png">
+<meta property="og:image" content="http://static.zybuluo.com/oxygenjing/nuhdcwwo4cqgp4u9erd7tyjo/image_1bn34j1bhnonfng1ha81j5d1f89m.png">
+<meta property="og:image" content="http://static.zybuluo.com/oxygenjing/oo4j190jwj6vo1xkqd69p04k/bedtools.png">
+<meta property="og:image" content="http://static.zybuluo.com/oxygenjing/buv71vxsf1fpv6vog6c6s8f8/cufflinks.png">
+<meta property="og:image" content="http://static.zybuluo.com/oxygenjing/qg34qhylv3xnplwcdlrdqfiv/image_1bn347oqm1fp21i2481rcjja289.png">
+<meta property="og:updated_time" content="2017-09-07T11:25:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RNA-seq分析所用生信工具安装详细记录">
+<meta name="twitter:description" content="一.测试服务器设定1.使登录后自动进入/home目录下 123vim ~/.bashrc#在文件中加入以下行后保存退出cd /home  2.新建RNAseq_tool文件夹，存放各工具 1mkdir RNAseq_tool">
+<meta name="twitter:image" content="http://static.zybuluo.com/oxygenjing/wv86pztzhvwzzdcibkz8h608/image_1bmomd1lskq8mkhg218d26ac13.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/05/RNA-seq分析所用生信工具安装详细记录/">
+
+
+
+
+
+  <title>RNA-seq分析所用生信工具安装详细记录 | Wendy’s note</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wendy’s note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/05/RNA-seq分析所用生信工具安装详细记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wendy">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wendy’s note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RNA-seq分析所用生信工具安装详细记录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-05T11:18:00+08:00">
+                2017-08-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bioinformatics/" itemprop="url" rel="index">
+                    <span itemprop="name">Bioinformatics</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/05/RNA-seq分析所用生信工具安装详细记录/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/08/05/RNA-seq分析所用生信工具安装详细记录/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/08/05/RNA-seq分析所用生信工具安装详细记录/" class="leancloud_visitors" data-flag-title="RNA-seq分析所用生信工具安装详细记录">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一-测试服务器设定"><a href="#一-测试服务器设定" class="headerlink" title="一.测试服务器设定"></a>一.测试服务器设定</h3><p>1.使登录后自动进入/home目录下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line"><span class="comment">#在文件中加入以下行后保存退出</span></span><br><span class="line"><span class="built_in">cd</span> /home</span><br></pre></td></tr></table></figure>
+
+<p>2.新建RNAseq_tool文件夹，存放各工具</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir RNAseq_tool</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+<h3 id="二-各生信工具在测试服务器下的安装"><a href="#二-各生信工具在测试服务器下的安装" class="headerlink" title="二.各生信工具在测试服务器下的安装"></a>二.各生信工具在测试服务器下的安装</h3><p>1.sratoolkit下载及安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下载并解压</span></span><br><span class="line">wget <span class="string">"ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-centos_linux64.tar.gz"</span></span><br><span class="line">tar -xzf sratoolkit.current-centos_linux64.tar.gz</span><br><span class="line"><span class="comment">#进入bin目录</span></span><br><span class="line"><span class="built_in">cd</span> [download_location]/sratoolkit[version]/bin/</span><br><span class="line"><span class="comment">#设置path并使其生效</span></span><br><span class="line">vi /etc/profile</span><br><span class="line">增加以下行</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/home/RNAseq_tool/sratoolkit.2.8.2-ubuntu64/bin</span><br><span class="line">vi /etc/environment</span><br><span class="line">增加以下行：</span><br><span class="line">PATH=<span class="string">"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/RNAseq_tool/sratoolkit.2.8.2-1-ubuntu64/bin"</span></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"><span class="built_in">source</span> /etc/enviroment</span><br><span class="line"><span class="comment">#测试安装是否成功</span></span><br><span class="line">fastq-dump –version</span><br><span class="line"><span class="comment">#运行案例</span></span><br><span class="line">fastq-dump -X 5 -Z SRR390728</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.zybuluo.com/oxygenjing/wv86pztzhvwzzdcibkz8h608/image_1bmomd1lskq8mkhg218d26ac13.png" alt="image_1bmomd1lskq8mkhg218d26ac13.png-37.6kB"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#配置SRAtoolkit的下载路径</span></span><br><span class="line">[安装路径]/bin/vdb-config –i 设定下载路径</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.zybuluo.com/oxygenjing/4z367ah9fd580cr111xrf9tr/image_1bmolqd3na58rmg1jnsf9hc3em.png" alt="image_1bmolqd3na58rmg1jnsf9hc3em.png-61.8kB"></p>
+<p>2.fastqc下载及安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#fastqc需要java环境，首先下载并配置java，此处下载 jre1.8.0_144</span></span><br><span class="line">wget http://javadl.oracle.com/webapps/download/AutoDL?BundleId=225345_090f390dda5b47b9b721c7dfaa008135</span><br><span class="line"></span><br><span class="line"><span class="comment">#进入安装目录解压</span></span><br><span class="line">tar –xzvf jre-8u144-linux-x64.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment">#配置java的环境变量</span></span><br><span class="line">vi /etc/profile</span><br><span class="line">添加以下行</span><br><span class="line">JAVA_HOME=/usr/java/jre1.8.0_144/</span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib:<span class="variable">$CLASSPATH</span></span><br><span class="line"><span class="built_in">export</span> PATH = <span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin</span><br><span class="line"></span><br><span class="line">vi /etc/environment</span><br><span class="line">添加java安装目录，此时文件内容为：</span><br><span class="line">PATH=<span class="string">"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/RNAseq_tool/sratoolkit.2.8.2-1-ubuntu64/bin:/usr/java/jre1.8.0_144/bin"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#下载及解压</span></span><br><span class="line">wget http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.5.zip</span><br><span class="line">unzip fastqc_v0.11.5.zip</span><br><span class="line"><span class="built_in">cd</span> FastQC</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加执行权限</span></span><br><span class="line">chmod 755 fastqc</span><br><span class="line"></span><br><span class="line"><span class="comment">#建立软连接</span></span><br><span class="line">ln -s [download_location]/FastQC/fastqc /usr/<span class="built_in">local</span>/bin/fastqc</span><br><span class="line"></span><br><span class="line"><span class="comment">#测试fastqc是否正常运行</span></span><br><span class="line">fastqc SRR390728.fastq <span class="comment">#运行结果如下图所示</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.zybuluo.com/oxygenjing/xvvik9xyg5h5is7jx60k2zaq/image_1bmon27cdomgpmhrnt1unu1cgp1g.png" alt="image_1bmon27cdomgpmhrnt1unu1cgp1g.png-10kB"><br>处理好的SRR390728_fastqc.html可以通过WinSCP下载到Windows系统上进行查看。</p>
+<p>3.cutadapt下载及安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#安装python-pip，python-dev</span></span><br><span class="line">apt-get install python-pip python-dev</span><br><span class="line"><span class="comment">#使用pip安装cutadapt，该方法将cutadapt二进制文件安装到./usr/.local/bin中,无需设置环境变量</span></span><br><span class="line">pip install --user --upgrade cutadapt</span><br><span class="line"><span class="comment">#尝试运行</span></span><br><span class="line">cutadapt --version</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.zybuluo.com/oxygenjing/ex543ebun3ocqnh0v0s9ecj2/image_1bmonjuh7f836du53d16vbhko1t.png" alt="image_1bmonjuh7f836du53d16vbhko1t.png-164.9kB"><br>4.fastx-toolkit下载及安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下载并安装依赖库libgtextutils 0.7</span></span><br><span class="line">wget https://github.com/agordon/libgtextutils/releases/download/0.7/libgtextutils-0.7.tar.gz</span><br><span class="line">tar –xzvf libgtextutils-0.7.tar.gz</span><br><span class="line"><span class="comment">#进入解压后文件夹进行编译安装</span></span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"><span class="comment">#下载并解压fastx 0.0.14：</span></span><br><span class="line">wget https://github.com/agordon/fastx_toolkit/releases/download/0.0.14/fastx_toolkit-0.0.14.tar.bz2</span><br><span class="line">tar –xjvf fastx_toolkit-0.0.14.tar.bz2</span><br><span class="line"><span class="comment">#进入解压后文件夹进行编译安装</span></span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"><span class="comment">#配置环境变量</span></span><br><span class="line">vi /etc/profile</span><br><span class="line">添加如下行</span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/lib:<span class="variable">$LD_LIBRARY_PATH</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.zybuluo.com/oxygenjing/zhnkyov7ls5r7j2wc03bnq4s/image_1bmonpvcekhteev1rjh1c76rmq2a.png" alt="image_1bmonpvcekhteev1rjh1c76rmq2a.png-38.3kB"></p>
+<p>5.安装bowtie2(旧流程）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#安装依赖包libtbb2</span></span><br><span class="line">apt-get install libtbb2</span><br><span class="line"><span class="comment">#下载并解压bowtie2</span></span><br><span class="line">wget https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.3.2/bowtie2-2.3.2-linux-x86_64.zip/download</span><br><span class="line">unzip bowtie2-2.3.2-linux-x86_64.zip</span><br><span class="line"><span class="comment">#配置环境变量</span></span><br><span class="line">vi /etc/profile</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>://home/RNAseq_tool/bowtie2-2.3.2</span><br></pre></td></tr></table></figure>
+
+<p>6.安装Tophat2（旧流程）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下载并解压</span></span><br><span class="line">wget http://ccb.jhu.edu/software/tophat/downloads/tophat-2.1.1.Linux_x86_64.tar.gz</span><br><span class="line">tar –xzvf tophat-2.1.1.Linux_x86_64.tar.gz</span><br><span class="line"><span class="comment">#添加软连接</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/bin</span><br><span class="line">ln –s /home/RNAseq_tool/tophat-2.1.1.Linux_x86_64/tophat2</span><br><span class="line"><span class="comment">#测试tophat2</span></span><br><span class="line"><span class="comment">#下载并解压测试数据</span></span><br><span class="line">wget http://ccb.jhu.edu/software/tophat/downloads/test_data.tar.gz</span><br><span class="line">tar –xzvf test_data.tar.gz</span><br><span class="line"><span class="comment">#测试：（实际使用时需要额外生成index文件）</span></span><br><span class="line"><span class="built_in">cd</span> test_data</span><br><span class="line">tophat2 -r 20 test_ref reads_1.fq reads_2.fq</span><br></pre></td></tr></table></figure>
+
+<p>7.安装HISAT2（Tophat替代工具）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下载源码并解压</span></span><br><span class="line">wget http://ccb.jhu.edu/software/hisat2/downloads/hisat2-2.0.0-beta-source.zip</span><br><span class="line">unzip hisat2-2.0.0-beta-source.zip</span><br><span class="line"><span class="comment">#进入解压后目录并编译安装</span></span><br><span class="line"><span class="built_in">cd</span> hisat2-2.0.0-beta/</span><br><span class="line">make</span><br><span class="line"><span class="comment">#添加环境变量并使其立即生效</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/home/RNAseq_tool/hisat2-2.0.0-beta</span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br><span class="line"><span class="comment">#试运行</span></span><br><span class="line">hisat2</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.zybuluo.com/oxygenjing/xka6x0oo7dttc9xsl244qu2x/hisat4.png" alt="hisat4.png-45.1kB"></p>
+<p>8.安装samtools</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下载依赖库：libncurses5-dev, zlib1g-dev libbz2-dev liblzma-dev</span></span><br><span class="line">apt-get install libncurses5-dev zlib1g-dev libbz2-dev liblzma-dev</span><br><span class="line"><span class="comment">#下载samtools 1.5，bcftools 1.5，htslib 1.5：</span></span><br><span class="line">wget https://github.com/samtools/samtools/releases/download/1.5/samtools-1.5.tar.bz2</span><br><span class="line">wget https://github.com/samtools/bcftools/releases/download/1.5/bcftools-1.5.tar.bz2</span><br><span class="line">wget https://github.com/samtools/htslib/releases/download/1.5/htslib-1.5.tar.bz2</span><br><span class="line"><span class="comment">#安装三个工具（分别进入各工具文件夹，进行编译安装，顺序：htslib&gt;bcftools&gt;samtools）</span></span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"><span class="comment">#注：编译安装默认路径为/usr/local/bin，所以无需添加环境变量</span></span><br><span class="line"><span class="comment">#测试安装</span></span><br><span class="line">samtools</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.zybuluo.com/oxygenjing/k2idkpjgssxzsi22ejki7407/samtools.png" alt="samtools.png-8.5kB"></p>
+<p>9.安装RSeQC(用于对bam文件进行质控,项目主页：<a href="http://rseqc.sourceforge.net/）" target="_blank" rel="noopener">http://rseqc.sourceforge.net/）</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Python2.7环境下</span></span><br><span class="line">pip install RSeQC</span><br></pre></td></tr></table></figure>
+
+<p>其由许多功能脚本组成，具体可以看官网信息（<a href="http://rseqc.sourceforge.net/）" target="_blank" rel="noopener">http://rseqc.sourceforge.net/）</a></p>
+<p>10.安装HTseq（项目主页：<a href="http://htseq.readthedocs.io/en/release_0.9.1/）" target="_blank" rel="noopener">http://htseq.readthedocs.io/en/release_0.9.1/）</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装依赖</span></span><br><span class="line">sudo apt-get install build-essential python2.7-dev </span><br><span class="line">python-numpy python-matplotlib python-pysam python-htseq</span><br><span class="line"><span class="comment"># Python2.7环境下</span></span><br><span class="line">pip install HTSeq</span><br><span class="line"><span class="comment">#常用功能展示</span></span><br><span class="line">htseq-count -h</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.zybuluo.com/oxygenjing/nuhdcwwo4cqgp4u9erd7tyjo/image_1bn34j1bhnonfng1ha81j5d1f89m.png" alt="image_1bn34j1bhnonfng1ha81j5d1f89m.png-107.3kB"></p>
+<p>11.安装bedtools</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下载并解压</span></span><br><span class="line">wget https://github.com/arq5x/bedtools2/releases/download/v2.26.0/bedtools-2.26.0.tar.gz</span><br><span class="line">tar –xzvf bedtools-2.26.0.tar.gz</span><br><span class="line"><span class="comment">#进入解压后文件目录进行编译安装</span></span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"><span class="comment">#测试安装</span></span><br><span class="line">bedtools --version</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.zybuluo.com/oxygenjing/oo4j190jwj6vo1xkqd69p04k/bedtools.png" alt="bedtools.png-1.6kB"></p>
+<p>12.安装cufflinks（旧流程）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下载并解压</span></span><br><span class="line">wget http://cole-trapnell-lab.github.io/cufflinks/assets/downloads/cufflinks-2.2.1.Linux_x86_64.tar.gz</span><br><span class="line">tar –xzvf cufflinks-2.2.1.Linux_x86_64.tar.gz</span><br><span class="line"><span class="comment">#将目录添加至环境变量中</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/home/RNAseq_tool/cufflinks-2.2.1.Linux_x86_64</span><br><span class="line"><span class="comment">#测试安装</span></span><br><span class="line">cufflinks</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.zybuluo.com/oxygenjing/buv71vxsf1fpv6vog6c6s8f8/cufflinks.png" alt="cufflinks.png-9.2kB"></p>
+<p>13.安装stringtie（cufflinks替代文件，项目主页<a href="https://ccb.jhu.edu/software/stringtie/" target="_blank" rel="noopener">在此</a>）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下载并解压</span></span><br><span class="line">wget http://ccb.jhu.edu/software/stringtie/dl/stringtie-1.3.3b.Linux_x86_64.tar.gz</span><br><span class="line">tar -zxvf stringtie-1.3.3b.Linux_x86_64.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加目录至系统环境变量</span></span><br><span class="line">vim /etc/profile</span><br><span class="line">添加如下行</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/home/RNAseq_tool/stringtie-1.3.3b.Linux_x86_64</span><br><span class="line"></span><br><span class="line"><span class="comment">#试运行，如果如下图</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://static.zybuluo.com/oxygenjing/qg34qhylv3xnplwcdlrdqfiv/image_1bn347oqm1fp21i2481rcjja289.png" alt="image_1bn347oqm1fp21i2481rcjja289.png-155.3kB"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/11/vcf文件详解/" rel="next" title="vcf文件详解">
+                <i class="fa fa-chevron-left"></i> vcf文件详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/10/RNA-seq数据分析实例（胶质瘤）/" rel="prev" title="RNA-seq数据分析实例（胶质瘤）">
+                RNA-seq数据分析实例（胶质瘤） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Wendy">
+          <p class="site-author-name" itemprop="name">Wendy</p>
+           
+              <p class="site-description motion-element" itemprop="description">Cease to struggle and you cease to live</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/oxygenJing" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:oxygenjing830@gmail.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                    
+                      E-Mail
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-测试服务器设定"><span class="nav-number">1.</span> <span class="nav-text">一.测试服务器设定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-各生信工具在测试服务器下的安装"><span class="nav-number">2.</span> <span class="nav-text">二.各生信工具在测试服务器下的安装</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wendy</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://oxygenjing.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/08/05/RNA-seq分析所用生信工具安装详细记录/';
+          this.page.identifier = '2017/08/05/RNA-seq分析所用生信工具安装详细记录/';
+          this.page.title = 'RNA-seq分析所用生信工具安装详细记录';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://oxygenjing.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("G1Yts5aDii5lQbUOIsaVd0fm-gzGzoHsz", "Pgoiqy9UATK8Ss9JXooux9PO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
