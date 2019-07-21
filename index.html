@@ -299,6 +299,179 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/14/pandas拆分及组合矩阵/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wendy">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wendy’s note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/14/pandas拆分及组合矩阵/" itemprop="url">pandas拆分及组合矩阵</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-14T23:02:33+08:00">
+                2018-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/07/14/pandas拆分及组合矩阵/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/14/pandas拆分及组合矩阵/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/07/14/pandas拆分及组合矩阵/" class="leancloud_visitors" data-flag-title="pandas拆分及组合矩阵">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="一列拆分为多行"><a href="#一列拆分为多行" class="headerlink" title="一列拆分为多行"></a>一列拆分为多行</h3><p>如下代码所示，该数据框中最后两列的部分数据为逗号分隔开的多个值。目前希望将数据框中的数据分割成为单条数据一行的格式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   name  color       size</span><br><span class="line"><span class="number">1</span>  AAAA  pink,yellow <span class="number">18</span>M,<span class="number">14</span>S</span><br><span class="line"><span class="number">2</span>  BBBB  black,blue  <span class="number">10</span>S,<span class="number">12L</span></span><br><span class="line"><span class="number">3</span>  CCCC  red         <span class="number">13</span>M</span><br></pre></td></tr></table></figure>
+
+<p>想要得到的数据框格式如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">   name  color  size</span><br><span class="line"><span class="number">0</span>  AAAA  pink   <span class="number">18</span>M</span><br><span class="line"><span class="number">1</span>  AAAA  pink   <span class="number">14</span>S</span><br><span class="line"><span class="number">2</span>  AAAA  yellow <span class="number">18</span>M</span><br><span class="line"><span class="number">3</span>  AAAA  yellow <span class="number">14</span>S</span><br><span class="line"><span class="number">4</span>  BBBB  black  <span class="number">10</span>S</span><br><span class="line"><span class="number">5</span>  BBBB  black  <span class="number">12L</span></span><br><span class="line"><span class="number">6</span>  BBBB  blue   <span class="number">10</span>S</span><br><span class="line"><span class="number">7</span>  BBBB  blue   <span class="number">12L</span></span><br><span class="line"><span class="number">8</span>  CCCC  red    <span class="number">13</span>M</span><br></pre></td></tr></table></figure>
+
+<p><strong>实现思路</strong>：对于color和size列按照逗号对各个值进行拆分，将单个值转化为一行，同时相应的name列增加相应行。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/14/pandas拆分及组合矩阵/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/06/使用ROSE寻找超级增强子/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1851,189 +2024,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/17/github结合hexo搭建个人静态博客/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wendy">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Wendy’s note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/09/17/github结合hexo搭建个人静态博客/" itemprop="url">github结合hexo搭建个人静态博客</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-09-17T19:16:18+08:00">
-                2016-09-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Blog/" itemprop="url" rel="index">
-                    <span itemprop="name">Blog</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/09/17/github结合hexo搭建个人静态博客/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/17/github结合hexo搭建个人静态博客/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2016/09/17/github结合hexo搭建个人静态博客/" class="leancloud_visitors" data-flag-title="github结合hexo搭建个人静态博客">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="一、github的下载及github-pages的配置"><a href="#一、github的下载及github-pages的配置" class="headerlink" title="一、github的下载及github pages的配置"></a>一、github的下载及github pages的配置</h2><p>github在多平台下都可以安装，google搜索github，进入<a href="https://git-scm.com/download" target="_blank" rel="noopener">官网</a>即可下载自己所需要的版本。各版本安装过程均较为简单，且官方手册叙述详细，在此不再赘述。</p>
-<p>下面以windows平台为例介绍后续配置方法。</p>
-<p>下载完成后，打开git终端，首先使用cd命令跳转到相应盘符建立一个新的工作目录，并将git部署在此目录下。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将目录换至工作目录</span></span><br><span class="line"><span class="built_in">cd</span> /e</span><br><span class="line"><span class="comment">#新建一个名为mygit的工作目录用户存储本地项目</span></span><br><span class="line">mkdir mygit</span><br><span class="line"><span class="built_in">cd</span> mygit</span><br></pre></td></tr></table></figure>
-
-<p>接下来，检查本机ssh-key的设置，此设置是为了安全地连接本机和github服务器。如果没有设置过ssh-key，这里则需要生成新的ssh-key。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.ssh</span><br><span class="line"><span class="comment">#如果提示没有相应的文件或文件夹，需要创建一个新的ssh-key</span></span><br><span class="line"><span class="comment">#邮箱需要填写注册github时使用的邮箱</span></span><br><span class="line">ssh-keygen -t rsa -C <span class="string">"邮箱地址@yourmail.com"</span></span><br></pre></td></tr></table></figure>
-
-<p>接着需要输入加密串。一段自己可以记得住的密码即可，会要求重复输入。最后会有ssh-key输出成功的提示，另外在.ssh文件夹中也可以发现新生成了公钥和密钥文件。</p>
-<p>下面要做的是将公钥上传到github中，完成github服务器和本机的联系。在~.ssh文件夹中找到<code>id_rsa.pub</code>，并将其复制到github个人主页中的<code>SSH and GPG keys</code>一项中。 </p>
-<p>上传完成后进行测试，尝试连接github。使用以下代码实现。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-
-<p>会要求输入刚才生成ssh-key时需要的加密串，输入正确后验证成功。<br>接下来要进行<code>github pages</code>的创建。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/09/17/github结合hexo搭建个人静态博客/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -2075,7 +2072,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -2086,7 +2083,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
